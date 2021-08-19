@@ -1,0 +1,491 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/study.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="LZ">
+  <meta name="keywords" content="">
+  
+  <title>Redis 发布 订阅 - LZ&#39;blogs</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.7.2/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"blog.cells.ren","root":"/","version":"1.8.11","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>LZ'blogs</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Redis 发布 订阅">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-06-29 13:18" pubdate>
+        2021年6月29日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.1k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      14
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Redis 发布 订阅</h1>
+            
+            <div class="markdown-body">
+              <h2 id="Pub-Sub-发布-订阅"><a href="#Pub-Sub-发布-订阅" class="headerlink" title="Pub/Sub (发布 订阅)"></a>Pub/Sub (发布 订阅)</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 监听</span><br>&gt; SUBSCRIBE one two<br>1) <span class="hljs-string">&quot;psubscribe&quot;</span><br>2) <span class="hljs-string">&quot;one&quot;</span><br>3) (<span class="hljs-built_in">integer</span>) 1<br>1) <span class="hljs-string">&quot;psubscribe&quot;</span><br>2) <span class="hljs-string">&quot;two&quot;</span><br>3) (<span class="hljs-built_in">integer</span>) 2<br><span class="hljs-comment"># 这里是监听到的消息</span><br>1) <span class="hljs-string">&quot;message&quot;</span><br>2) <span class="hljs-string">&quot;two&quot;</span><br>3) <span class="hljs-string">&quot;msg&quot;</span><br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>注意监听多个队列可以空格空开, 对应的队列名也可以使用模糊匹配</p>
+<p>第一个元素: 订阅模式</p>
+<p>第二个元素: 队列名称</p>
+<p>第三个元素: 对应的消息内容</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 推送</span><br>&gt; PUBLISH one msg<br><span class="hljs-comment"># 返回值为有多少个客户端监听到了这条消息</span><br>(<span class="hljs-built_in">integer</span>) 1<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>这种形式实现消息队列, 可以实现重复消费, 但是没有ACK机制.</p>
+<ol>
+<li>redis宕机的话, 重启后这些队列中的数据是不会恢复的, 因为这些消息是不持久化消息的.</li>
+<li>消费者宕机, 消费者宕机重启的话也一样会丢失掉对应的数据.</li>
+</ol>
+</blockquote>
+<p>注意, redis对于每个客户端输出缓冲区都是有对应的限制的, 如果数据量大的话可能会导致强制关闭连接 (不止pub/sub, slave和普通客户端都可以通过该配置设置)</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">client-output-buffer-limit pubsub 32mb 8mb 60<br></code></pre></td></tr></table></figure>
+
+<h2 id="Stream"><a href="#Stream" class="headerlink" title="Stream"></a>Stream</h2><p>在redis5的版本更新了对应的Stream, 一个更加强大的发布订阅系统.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 新增stream, *代表自动生成条目ID, redis会按照这种格式生成&lt;millisecondsTime&gt;-&lt;sequenceNumber&gt;</span><br>&gt; XADD <span class="hljs-built_in">test</span> * name lz age 19<br><span class="hljs-comment"># 条目ID</span><br>1625385499661-0<br><span class="hljs-comment"># COUNT标志读取几条, 0-0代表从头开始找, 可以写为对应的ID, 没有消息时返回null</span><br>&gt; XREAD COUNT 1 STREAMS <span class="hljs-built_in">test</span> 0-0<br>1) 1) <span class="hljs-string">&quot;test&quot;</span><br>   2) 1) 1) <span class="hljs-string">&quot;1625385499661-0&quot;</span><br>         2) 1) <span class="hljs-string">&quot;name&quot;</span><br>            2) <span class="hljs-string">&quot;lz&quot;</span><br>            3) <span class="hljs-string">&quot;age&quot;</span><br>            4) <span class="hljs-string">&quot;19&quot;</span><br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p><millisecondsTime>-<sequenceNumber>这种时间戳的设计是为了让用户可以根据ID进行范围查询</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 范围查询, - +代表最小ID和最大ID, count代表获取多少条</span><br>&gt; xrange <span class="hljs-built_in">test</span> - + COUNT 2<br></code></pre></td></tr></table></figure>
+
+<h3 id="阻塞式的拉取消息"><a href="#阻塞式的拉取消息" class="headerlink" title="阻塞式的拉取消息"></a>阻塞式的拉取消息</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 通过BLOCK设置阻塞等待时间,  0为不设置超时时间, 最好设置一个服务可接受的超市时间</span><br>&gt; XREAD COUNT 5 BLOCK 0 STREAMS <span class="hljs-built_in">test</span> 1625385499661-0<br></code></pre></td></tr></table></figure>
+
+<h3 id="发布订阅"><a href="#发布订阅" class="headerlink" title="发布订阅"></a>发布订阅</h3><p>stream有对应的消费者组概念, 可以通过<strong>XGROUP</strong>,<strong>XREADGROUP</strong>创建消费者组和拉取消息</p>
+<p>假设现在有名为test的stream, 其中有一条消息, 注意是有一条消息的.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash">&gt; XGROUP CREATE <span class="hljs-built_in">test</span> testGroupOne 0<br>OK<br>&gt; XGROUP CREATE <span class="hljs-built_in">test</span> testGroupTwo $<br>OK<br></code></pre></td></tr></table></figure>
+
+<p>创建好后开始消费</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 消费者组一可以拿到对应的消息, LZ代表消费者</span><br>&gt; XREADGROUP GROUP testGroupOne LZ COUNT 5 STREAMS queue &gt;<br>1) 1) <span class="hljs-string">&quot;test&quot;</span><br>   2) 1) 1) <span class="hljs-string">&quot;1625385499661-0&quot;</span><br>         2) 1) <span class="hljs-string">&quot;name&quot;</span><br>            2) <span class="hljs-string">&quot;lz&quot;</span><br>            3) <span class="hljs-string">&quot;age&quot;</span><br>            4) <span class="hljs-string">&quot;19&quot;</span><br><span class="hljs-comment"># 消费者组二没有拿到对应的消息</span><br>&gt; XREADGROUP GROUP testGroupTwo LZ COUNT 5 STREAMS queue &gt;<br>(nil)<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p> 在上一步创建对应的消费者组时, 对应的$参数代表着从现在开始, 到达的消息才会被传递, 而0代表着所有的消息都会被传递.</p>
+</blockquote>
+<blockquote>
+<p><strong>XREADGROUP结尾的STREAMS为什么是&gt;, 而不是对应的ID?</strong></p>
+<p>代表着消息到目前为止从未传递给其他消费者. 注意这里, 如果有多条未被阅读的消息, 会读取所有的.</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs bash">&gt; XADD <span class="hljs-built_in">test</span> * name lz age 19<br>1625385499661-0<br><span class="hljs-comment"># 创建两个消费者组, 绑定test</span><br>&gt; XGROUP CREATE <span class="hljs-built_in">test</span> testGroupOne 0<br>OK<br>&gt; XGROUP CREATE <span class="hljs-built_in">test</span> testGroupTwo 0<br>OK<br>&gt; XREADGROUP GROUP testGroupOne LZ COUNT 5 STREAMS queue &gt;<br>1) 1) <span class="hljs-string">&quot;test&quot;</span><br>   2) 1) 1) <span class="hljs-string">&quot;1625385499661-0&quot;</span><br>         2) 1) <span class="hljs-string">&quot;name&quot;</span><br>            2) <span class="hljs-string">&quot;lz&quot;</span><br>            3) <span class="hljs-string">&quot;age&quot;</span><br>            4) <span class="hljs-string">&quot;19&quot;</span><br>&gt; XREADGROUP GROUP testGroupTwo LZ COUNT 5 STREAMS queue &gt;<br>1) 1) <span class="hljs-string">&quot;test&quot;</span><br>   2) 1) 1) <span class="hljs-string">&quot;1625385499661-0&quot;</span><br>         2) 1) <span class="hljs-string">&quot;name&quot;</span><br>            2) <span class="hljs-string">&quot;lz&quot;</span><br>            3) <span class="hljs-string">&quot;age&quot;</span><br>            4) <span class="hljs-string">&quot;19&quot;</span><br></code></pre></td></tr></table></figure>
+
+<p>可以看到两组消费者都可以对一条消息进行消费.</p>
+<h3 id="消息丢失"><a href="#消息丢失" class="headerlink" title="消息丢失"></a>消息丢失</h3><p>如果消费者宕机了, 就不会发出ACK请求, 这个消息依旧会被redis保留</p>
+<h3 id="stream丢失"><a href="#stream丢失" class="headerlink" title="stream丢失"></a>stream丢失</h3><p>stream算是一种新增加的数据类型, 会被写入到AOF和RDB.</p>
+<h3 id="消息堆积的处理"><a href="#消息堆积的处理" class="headerlink" title="消息堆积的处理"></a>消息堆积的处理</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">&gt; XADD <span class="hljs-built_in">test</span> MAXLEN ~ 1000 * name lz age 19<br></code></pre></td></tr></table></figure>
+
+<p>这样的话当长度超出上限之后, 旧的消息会被移除掉, 但是这样也有可能导致消息丢失</p>
+<p>注意这个 <strong>~</strong> 符号可以不带, 这个参数标志着不需要精确到1000, 只要最少是1000就可以. 因为stream的实现原因, 这个参数可以让实现更高效.</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Cache/">Cache</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Redis/">Redis</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/07/02/Redis%20%E7%AE%A1%E9%81%93/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Redis 管道</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/06/29/Redis%20%E7%B1%BB%E5%9E%8B/">
+                        <span class="hidden-mobile">Redis 类型</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.3/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.1/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js" ></script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

@@ -1,0 +1,479 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/study.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="LZ">
+  <meta name="keywords" content="">
+  
+  <title>JVM垃圾回收算法 - LZ&#39;blogs</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.7.2/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"blog.cells.ren","root":"/","version":"1.8.11","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>LZ'blogs</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="JVM垃圾回收算法">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-06-24 17:18" pubdate>
+        2021年6月24日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.7k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      17
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">JVM垃圾回收算法</h1>
+            
+            <div class="markdown-body">
+              <h3 id="标记清除算法"><a href="#标记清除算法" class="headerlink" title="标记清除算法"></a>标记清除算法</h3><p><code>Mark-Sweep(标记-清除)算法</code>有<code>标记</code>和<code>清除</code>两个阶段.</p>
+<p>首先标记出所有需要回收的对象, 标记完成后统一回收所有被标记的对象.</p>
+<p><img src="/imgs/%E6%A0%87%E8%AE%B0-%E6%B8%85%E9%99%A4.png" srcset="/img/loading.gif" lazyload></p>
+<p>从这个图上可以看出, 实现相对简单, 但是问题在于会产生内存碎片, 碎片太多容易导致后续过程中需要为大对象分配空间时, 无法找到足够的空间而再次触发垃圾回收</p>
+<p>也就是说标记-清除算法不需要进行对象的移动, 只需对没有存活的对象进行处理, 在存活对象比较多的情况下极为高效, 但由于直接回收不存活的对象, 没有进行整理(可谓<code>一屋不扫, 何以扫天下</code>), 因此会造成内存碎片.</p>
+<blockquote>
+<p><strong>既然这种算法缺点如此明显, 那该怎么处理?</strong><br>为了优化这种算法, 其实想想的话, 思路无非两种, 一种是增加整理的功能, 另一种就是放弃掉这种方法, <code>标记整理</code>就是前者, <code>复制算法</code>则为后者</p>
+</blockquote>
+<h3 id="复制算法"><a href="#复制算法" class="headerlink" title="复制算法"></a>复制算法</h3><p>为了解决<code>Mark-Sweep(标记-清除)算法</code>的缺陷, <code>Copying(复制)算法</code>将可用内存按容量划分为大小相等的两块, 每次只使用其中一块. 当一块的内存用完了, 就将存活着的对象复制到另外一块上面, 然后再把已使用的内存空间一次清理掉, 这样一来就不容易出现内存碎片的问题.</p>
+<p>复制算法的提出是为了克服句柄的开销和解决内存碎片的问题.</p>
+<p><img src="/imgs/%E5%A4%8D%E5%88%B6.png" srcset="/img/loading.gif" lazyload></p>
+<p>这种算法虽然实现简单, 运行高效且不容易产生内存碎片, 但是却牺牲了极大的内存空间, 将可用内存缩减到原来的一半.开始时把堆分成<code>对象面</code>和<code>空闲面</code>,  程序从<code>对象面</code>为对象分配空间, 当<code>对象面</code>满了, 基于<code>Copying算法</code>的垃圾收集就从<code>根集合(GC Roots)</code>中扫描活动对象, 并将每个活动对象复制到<code>空闲面</code>(使得活动对象所占的内存之间没有内存碎片), 这样的话<code>空闲面</code>就变成了<code>对象面</code>, 原来的<code>对象面</code>则变成了<code>空闲面</code>, 程序会在新的<code>对象面</code>中分配内存.</p>
+<blockquote>
+<p><strong>Copying算法的问题难道只存在与浪费内存?</strong><br>肯定不是, Copying算法运行机制无非就是拷贝, 将A中的存活对象拷贝到B中, 但是存活对象的数目很大的话, 那么Copying算法的效率也一定会大大降低. </p>
+</blockquote>
+<h3 id="标记整理算法"><a href="#标记整理算法" class="headerlink" title="标记整理算法"></a>标记整理算法</h3><p>为了解决<code>Copying算法</code>的缺陷, 充分利用内存空间, 提出了<code>Mark-Compact算法</code>. 该算法标记阶段和<code>Mark-Sweep</code>一样, 但是在完成标记之后, 它不是直接清理可回收对象, 而是将存活对象都向一端移动, 然后清理掉端边界以外的内存.</p>
+<p><code>标记整理算法</code>采用<code>标记清除算法</code>一样的方式进行对象的标记, 但在清除时不同, 是先将所有的对象整理, 并更新对应的指针后在进行清除. 也就是说多进行了对象的移动, 因此成本会更高, 但是却解决了内存碎片的问题.</p>
+<p><img src="/imgs/%E6%A0%87%E8%AE%B0%E6%95%B4%E7%90%86.png" srcset="/img/loading.gif" lazyload></p>
+<blockquote>
+<p><strong>怎么进行整理?</strong><br>既然要移动, 那么肯定有很多中方式, 是直接将对象堆积到一起还是怎么, 肯定还有需要考虑的空间. 这个算法有很多的变种, 例子: <code>Threaded compaction</code></p>
+</blockquote>
+<h3 id="分代收集算法"><a href="#分代收集算法" class="headerlink" title="分代收集算法"></a>分代收集算法</h3><p><code>分代收集算法</code>是目前大部分 JVM 的垃圾收集器采用的算法. 核心思想是根据对象存活的生命周期将内存划分为若干个不同的区域.</p>
+<p>一般情况下将堆区划分为<code>老年代(Tenured Generation)</code>和<code>新生代(Young Generation)</code>, 在堆区之外还有一个代就是<code>永久代(Permanet Generation)</code>. 老年代的特点是每次垃圾回收时只有少量对象需要被回收, 而新生代的特点是每次垃圾回收时都有大量的对象需要被回收, 那么就可以根据不同代的特点采取适合的收集算法.</p>
+<p>目前大部分垃圾收集器对于<code>新生代</code>都采取<code>Copying算法</code>, 因为<code>新生代</code>中每次垃圾回收都要回收大部分对象, 也就是说需要复制的操作次数较少, 但并不是按照1:1的比例来划分新生代空间的, 一般来说是将新生代划分为一块较大的Eden空间和两块较小的Survivor空间(一般为 8:1:1), 每次使用Eden空间和其中的一块Survivor空间, 当进行回收时, 将Eden和Survivor中还存活的对象复制到另一块Survivor空间中, 然后清理掉Eden和刚才使用过的Survivor空间.</p>
+<blockquote>
+<p><strong>为什么需要两个Survivor, 两个Survivor有什么区别?</strong><br>两个Survivor区域分别是From区和To区, 执行年轻代的GC时, 两个Survivor的互换其实就是指针的互换.</p>
+</blockquote>
+<blockquote>
+<p><strong>那么什么对象会进入老年代?</strong><br>对象里都有一个age字段, 代表对象经历的年轻代GC次数, 新创建的为0, 每次GC都会加1, 在每次GC时也都会检查对象的年龄, 如果大于AGE_MAX, 那么就会将对象放到老年代.</p>
+</blockquote>
+<ol>
+<li>所有新生成的对象首先都是放在年轻代的, 年轻代的目标就是尽可能快速的收集掉那些生命周期短的对象.</li>
+<li>新生代内存按照8:1:1的比例分为一个Eden区和两个Survivor(survivor0, survivor1)区. 大部分对象在Eden区中生成. 回收时先将Eden区存活对象复制到一个Survivor0区, 然后清空Eden区, 当这个Survivor0区也存放满了时, 则将Eden区和Survivor0区存活对象复制到另一个Survivor1区, 然后清空Eden和这个Survivor0区, 此时Survivor0区是空的, 然后将Survivor0区和Survivor1区交换, 即保持Survivor1区为空, 如此往复. 当Eden没有足够空间的时候就会触发jvm发起一次Minor GC</li>
+</ol>
+<blockquote>
+<p><strong>为什么保持Survivor1为空?</strong><br>为了让Eden和Survivor0交换存活对象</p>
+</blockquote>
+<ol start="3">
+<li>当Survivor1区不足以存放Eden和Survivor0的存活对象时, 就将存活对象直接存放到老年代. 若是老年代也满了就会触发一次Full GC(Major GC), 也就是新生代,老年代都进行回收.</li>
+<li>新生代发生的GC也叫做Minor GC, MinorGC发生频率比较高(不一定等Eden区满了才触发).</li>
+</ol>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/">Java</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/JVM/">JVM</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/06/25/HashMap/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">HashMap</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/06/24/CopyOnWriteArrayList/">
+                        <span class="hidden-mobile">CopyOnWriteArrayList</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.3/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.1/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js" ></script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

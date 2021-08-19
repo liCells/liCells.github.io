@@ -1,0 +1,465 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/study.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="LZ">
+  <meta name="keywords" content="">
+  
+  <title>ArrayList - LZ&#39;blogs</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.7.2/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"blog.cells.ren","root":"/","version":"1.8.11","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>LZ'blogs</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="ArrayList">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-06-23 21:01" pubdate>
+        2021年6月23日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.3k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      19
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">ArrayList</h1>
+            
+            <div class="markdown-body">
+              <h3 id="ArrayList-关系"><a href="#ArrayList-关系" class="headerlink" title="ArrayList 关系"></a>ArrayList 关系</h3><p>基于数组实现的动态数组.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ArrayList</span>&lt;<span class="hljs-title">E</span>&gt; <span class="hljs-keyword">extends</span> <span class="hljs-title">AbstractList</span>&lt;<span class="hljs-title">E</span>&gt;</span><br><span class="hljs-class">    						// 支持随机访问	支持克隆			支持序列化</span><br><span class="hljs-class">        <span class="hljs-keyword">implements</span> <span class="hljs-title">List</span>&lt;<span class="hljs-title">E</span>&gt;, <span class="hljs-title">RandomAccess</span>, <span class="hljs-title">Cloneable</span>, <span class="hljs-title">java</span>.<span class="hljs-title">io</span>.<span class="hljs-title">Serializable</span> </span>&#123;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h4 id="diagram"><a href="#diagram" class="headerlink" title="diagram"></a>diagram</h4><p><img src="/imgs/ArrayList_diagram.jpg" srcset="/img/loading.gif" lazyload></p>
+<p>初始化时, 会指向一个static空数组, 在第一次添加元素后, 将长度修改为10.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">// 默认容量</span><br><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> DEFAULT_CAPACITY = <span class="hljs-number">10</span>;<br><span class="hljs-comment">// 初始默认空数组</span><br><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> Object[] DEFAULTCAPACITY_EMPTY_ELEMENTDATA = &#123;&#125;;<br><br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">ArrayList</span><span class="hljs-params">()</span> </span>&#123;<br>    <span class="hljs-keyword">this</span>.elementData = DEFAULTCAPACITY_EMPTY_ELEMENTDATA;<br>&#125;<br><br><span class="hljs-comment">// 添加元素时, 依次往下</span><br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">add</span><span class="hljs-params">(E e)</span> </span>&#123;<br>    <span class="hljs-comment">// ...</span><br>    add(e, elementData, size);<br>    <span class="hljs-comment">// ...</span><br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">add</span><span class="hljs-params">(E e, Object[] elementData, <span class="hljs-keyword">int</span> s)</span> </span>&#123;<br>    <span class="hljs-keyword">if</span> (s == elementData.length)<br>        elementData = grow();<br>    <span class="hljs-comment">// ...</span><br>&#125;<br><br><span class="hljs-keyword">private</span> Object[] grow() &#123;<br>    <span class="hljs-keyword">return</span> grow(size + <span class="hljs-number">1</span>);<br>&#125;<br><br><span class="hljs-keyword">private</span> Object[] grow(<span class="hljs-keyword">int</span> minCapacity) &#123;<br>    <span class="hljs-comment">// 通过copyOf复制出新的数组</span><br>    <span class="hljs-keyword">return</span> elementData = Arrays.copyOf(elementData,<br>                                       <span class="hljs-comment">// 产生新的容量</span><br>                                       newCapacity(minCapacity));<br>&#125;<br><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> <span class="hljs-title">newCapacity</span><span class="hljs-params">(<span class="hljs-keyword">int</span> minCapacity)</span> </span>&#123;<br>    <span class="hljs-keyword">int</span> oldCapacity = elementData.length;<br>    <span class="hljs-keyword">int</span> newCapacity = oldCapacity + (oldCapacity &gt;&gt; <span class="hljs-number">1</span>);<br>    <span class="hljs-keyword">if</span> (newCapacity - minCapacity &lt;= <span class="hljs-number">0</span>) &#123;<br>        <span class="hljs-keyword">if</span> (elementData == DEFAULTCAPACITY_EMPTY_ELEMENTDATA)<br>            <span class="hljs-keyword">return</span> Math.max(DEFAULT_CAPACITY, minCapacity);<br>        <span class="hljs-comment">// ...</span><br>    &#125;<br>    <span class="hljs-comment">// ...</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<p>每次扩容都是增加到原来的1.5倍. 扩容的关键方法是<code>grow()</code>, 方法中是这么计算的.</p>
+<figure class="highlight haxe"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs haxe"><span class="hljs-comment">// Capacity: 容量; 这里的右移一位相当于除以2, 也就是说当oldCapacity = 10时, 最终计算结果为10 + 5 = 15</span><br>int <span class="hljs-keyword">new</span><span class="hljs-type">Capacity</span> = oldCapacity + (oldCapacity &gt;&gt; <span class="hljs-number">1</span>);<br></code></pre></td></tr></table></figure>
+
+<p>由于扩容的方法本质是使用<code>Arrays.copyOf()</code>把源数组直接复制到新的数组中, 所以最好可以创建对象时, 指定大致的容量大小, 尽量去减少扩容的次数.</p>
+<h3 id="功能"><a href="#功能" class="headerlink" title="功能"></a>功能</h3><h4 id="判空"><a href="#判空" class="headerlink" title="判空."></a>判空.</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs Java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">size</span><span class="hljs-params">()</span> </span>&#123;<br>    <span class="hljs-keyword">return</span> size;<br>&#125;<br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">isEmpty</span><span class="hljs-params">()</span> </span>&#123;<br>    <span class="hljs-keyword">return</span> size == <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h4 id="判断包含"><a href="#判断包含" class="headerlink" title="判断包含."></a>判断包含.</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs Java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">contains</span><span class="hljs-params">(Object o)</span> </span>&#123;<br>    <span class="hljs-keyword">return</span> indexOf(o) &gt;= <span class="hljs-number">0</span>;<br>&#125;<br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">indexOf</span><span class="hljs-params">(Object o)</span> </span>&#123;<br>    <span class="hljs-keyword">return</span> indexOfRange(o, <span class="hljs-number">0</span>, size);<br>&#125;<br><span class="hljs-comment">// 将第一个匹配上的下标返回, 没有则为 -1</span><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">indexOfRange</span><span class="hljs-params">(Object o, <span class="hljs-keyword">int</span> start, <span class="hljs-keyword">int</span> end)</span> </span>&#123;<br>    Object[] es = elementData;<br>    <span class="hljs-keyword">if</span> (o == <span class="hljs-keyword">null</span>) &#123;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = start; i &lt; end; i++) &#123;<br>            <span class="hljs-keyword">if</span> (es[i] == <span class="hljs-keyword">null</span>) &#123;<br>                <span class="hljs-keyword">return</span> i;<br>            &#125;<br>        &#125;<br>    &#125; <span class="hljs-keyword">else</span> &#123;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = start; i &lt; end; i++) &#123;<br>            <span class="hljs-keyword">if</span> (o.equals(es[i])) &#123;<br>                <span class="hljs-keyword">return</span> i;<br>            &#125;<br>        &#125;<br>    &#125;<br>    <span class="hljs-keyword">return</span> -<span class="hljs-number">1</span>;<br>&#125;<br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">lastIndexOf</span><span class="hljs-params">(Object o)</span> </span>&#123;<br>    <span class="hljs-comment">// 和indexOf相反</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h4 id="复制"><a href="#复制" class="headerlink" title="复制."></a>复制.</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> Object <span class="hljs-title">clone</span><span class="hljs-params">()</span> </span>&#123;<br>    <span class="hljs-keyword">try</span> &#123;<br>        <span class="hljs-comment">// 可以看出, 这里是浅拷贝, 修改v会影响原对象</span><br>        ArrayList&lt;?&gt; v = (ArrayList&lt;?&gt;) <span class="hljs-keyword">super</span>.clone();<br>        <span class="hljs-comment">// 然后又进行了copyOf, 对原有的数组进行拷贝, 这样就不会影响到原对象</span><br>        v.elementData = Arrays.copyOf(elementData, size);<br>        v.modCount = <span class="hljs-number">0</span>;<br>        <span class="hljs-keyword">return</span> v;<br>    &#125; <span class="hljs-keyword">catch</span> (CloneNotSupportedException e) &#123;<br>        <span class="hljs-comment">// this shouldn&#x27;t happen, since we are Cloneable</span><br>        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> InternalError(e);<br>    &#125;<br>&#125;<br><span class="hljs-comment">// 按照正确的顺序返回所有元素</span><br><span class="hljs-keyword">public</span> Object[] toArray() &#123;<br>    <span class="hljs-keyword">return</span> Arrays.copyOf(elementData, size);<br>&#125;<br><span class="hljs-comment">// 将原对象复制到a中, 如果a的长度超出了size, 那么多余的均为null</span><br><span class="hljs-comment">// 原先a中有数据的话, 超出的部分不会变化, 但是在index小于size的均会被原数据覆盖</span><br><span class="hljs-keyword">public</span> &lt;T&gt; T[] toArray(T[] a) &#123;<br>    <span class="hljs-keyword">if</span> (a.length &lt; size)<br>        <span class="hljs-keyword">return</span> (T[]) Arrays.copyOf(elementData, size, a.getClass());<br>    System.arraycopy(elementData, <span class="hljs-number">0</span>, a, <span class="hljs-number">0</span>, size);<br>    <span class="hljs-keyword">if</span> (a.length &gt; size)<br>        a[size] = <span class="hljs-keyword">null</span>;<br>    <span class="hljs-keyword">return</span> a;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h4 id="获取"><a href="#获取" class="headerlink" title="获取."></a>获取.</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">// 根据下标获取对应元素</span><br><span class="hljs-function"><span class="hljs-keyword">public</span> E <span class="hljs-title">get</span><span class="hljs-params">(<span class="hljs-keyword">int</span> index)</span> </span>&#123;<br>    <span class="hljs-comment">// 验证index是否越界</span><br>    Objects.checkIndex(index, size);<br>    <span class="hljs-comment">// 根据对应下标拿到对应元素</span><br>    <span class="hljs-keyword">return</span> elementData(index);<br>&#125;<br><span class="hljs-function">E <span class="hljs-title">elementData</span><span class="hljs-params">(<span class="hljs-keyword">int</span> index)</span> </span>&#123;<br>    <span class="hljs-keyword">return</span> (E) elementData[index];<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h4 id="覆盖"><a href="#覆盖" class="headerlink" title="覆盖"></a>覆盖</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">// 用指定的元素替换指定位置的元素, 返回老元素</span><br><span class="hljs-function"><span class="hljs-keyword">public</span> E <span class="hljs-title">set</span><span class="hljs-params">(<span class="hljs-keyword">int</span> index, E element)</span> </span>&#123;<br>    <span class="hljs-comment">// 验证index是否越界</span><br>    Objects.checkIndex(index, size);<br>    <span class="hljs-comment">// 根据对应下标拿到对应元素</span><br>    E oldValue = elementData(index);<br>    <span class="hljs-comment">// 覆盖新元素</span><br>    elementData[index] = element;<br>    <span class="hljs-comment">// 返回老元素</span><br>    <span class="hljs-keyword">return</span> oldValue;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h4 id="移除"><a href="#移除" class="headerlink" title="移除"></a>移除</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> E <span class="hljs-title">remove</span><span class="hljs-params">(<span class="hljs-keyword">int</span> index)</span> </span>&#123;<br>    <span class="hljs-comment">// 验证index是否越界</span><br>    rangeCheck(index);<br>    modCount++;<br>    E oldValue = elementData(index);<br>    <span class="hljs-comment">// 计算要移除的元素下标</span><br>    <span class="hljs-keyword">int</span> numMoved = size - index - <span class="hljs-number">1</span>;<br>    <span class="hljs-keyword">if</span> (numMoved &gt; <span class="hljs-number">0</span>)<br>        <span class="hljs-comment">/**</span><br><span class="hljs-comment">         * elementData 源数组</span><br><span class="hljs-comment">         * index+1     源数组中开始拷贝的索引值</span><br><span class="hljs-comment">         * elementData 目标数组</span><br><span class="hljs-comment">		 * index       拷贝到目标数组开始的索引值</span><br><span class="hljs-comment">		 * numMoved    拷贝元素的个数</span><br><span class="hljs-comment">         */</span><br>        <span class="hljs-comment">// 拷贝数组到源数组, 即覆盖</span><br>        System.arraycopy(elementData, index+<span class="hljs-number">1</span>, elementData, index,<br>                         numMoved);<br>    elementData[--size] = <span class="hljs-keyword">null</span>;<br>    <span class="hljs-keyword">return</span> oldValue;<br>&#125;<br><span class="hljs-comment">// 类似于indexOf</span><br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">remove</span><span class="hljs-params">(Object o)</span> </span>&#123;<br>    <span class="hljs-keyword">if</span> (o == <span class="hljs-keyword">null</span>) &#123;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> index = <span class="hljs-number">0</span>; index &lt; size; index++)<br>            <span class="hljs-keyword">if</span> (elementData[index] == <span class="hljs-keyword">null</span>) &#123;<br>                fastRemove(index);<br>                <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;<br>            &#125;<br>    &#125; <span class="hljs-keyword">else</span> &#123;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> index = <span class="hljs-number">0</span>; index &lt; size; index++)<br>            <span class="hljs-keyword">if</span> (o.equals(elementData[index])) &#123;<br>                fastRemove(index);<br>                <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;<br>            &#125;<br>    &#125;<br>    <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;<br>&#125;<br><span class="hljs-comment">// 快速移除, 相对于remove少了校验index和返回值</span><br><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">fastRemove</span><span class="hljs-params">(<span class="hljs-keyword">int</span> index)</span> </span>&#123;<br>    modCount++;<br>    <span class="hljs-keyword">int</span> numMoved = size - index - <span class="hljs-number">1</span>;<br>    <span class="hljs-keyword">if</span> (numMoved &gt; <span class="hljs-number">0</span>)<br>        System.arraycopy(elementData, index+<span class="hljs-number">1</span>, elementData, index,<br>                         numMoved);<br>    elementData[--size] = <span class="hljs-keyword">null</span>;<br>&#125;<br><span class="hljs-comment">// 将所有的元素都置为null, size重新置为0</span><br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">clear</span><span class="hljs-params">()</span> </span>&#123;<br>    modCount++;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; size; i++)<br>        elementData[i] = <span class="hljs-keyword">null</span>;<br>    size = <span class="hljs-number">0</span>;<br>&#125;<br><span class="hljs-comment">// 移除所有在c中存在的元素, 如果源数组被修改则返回true</span><br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">removeAll</span><span class="hljs-params">(Collection&lt;?&gt; c)</span> </span>&#123;<br>    Objects.requireNonNull(c);<br>    <span class="hljs-keyword">return</span> batchRemove(c, <span class="hljs-keyword">false</span>);<br>&#125;<br><span class="hljs-comment">// 保留所有在c中存在的元素, 如果源数组被修改则返回true</span><br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">retainAll</span><span class="hljs-params">(Collection&lt;?&gt; c)</span> </span>&#123;<br>    Objects.requireNonNull(c);<br>    <span class="hljs-keyword">return</span> batchRemove(c, <span class="hljs-keyword">true</span>);<br>&#125;<br><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">batchRemove</span><span class="hljs-params">(Collection&lt;?&gt; c, <span class="hljs-keyword">boolean</span> complement)</span> </span>&#123;<br>    <span class="hljs-keyword">final</span> Object[] elementData = <span class="hljs-keyword">this</span>.elementData;<br>    <span class="hljs-keyword">int</span> r = <span class="hljs-number">0</span>, w = <span class="hljs-number">0</span>;<br>    <span class="hljs-keyword">boolean</span> modified = <span class="hljs-keyword">false</span>;<br>    <span class="hljs-keyword">try</span> &#123;<br>        <span class="hljs-keyword">for</span> (; r &lt; size; r++)<br>            <span class="hljs-comment">// 为true时, 将对应的元素放到最前边</span><br>            <span class="hljs-keyword">if</span> (c.contains(elementData[r]) == complement)<br>                elementData[w++] = elementData[r];<br>    &#125; <span class="hljs-keyword">finally</span> &#123;<br>        <span class="hljs-comment">// 如果抛出异常, 那么保存未处理完成的数组</span><br>        <span class="hljs-keyword">if</span> (r != size) &#123;<br>            System.arraycopy(elementData, r,<br>                             elementData, w,<br>                             size - r);<br>            w += size - r;<br>        &#125;<br>        <span class="hljs-comment">// w == size时, 本质就是不需要变动, 当不等于size时, 将在元素下标大于w的全部置为null, 等待GC回收</span><br>        <span class="hljs-keyword">if</span> (w != size) &#123;<br>            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = w; i &lt; size; i++)<br>                elementData[i] = <span class="hljs-keyword">null</span>;<br>            modCount += size - w;<br>            size = w;<br>            modified = <span class="hljs-keyword">true</span>;<br>        &#125;<br>    &#125;<br>    <span class="hljs-keyword">return</span> modified;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/">Java</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a>
+                    
+                      <a class="hover-with-bg" href="/tags/List/">List</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/06/24/LinkedList/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">LinkedList</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/06/23/%E7%BA%BF%E6%80%A7%E4%B8%8E%E9%9D%9E%E7%BA%BF%E6%80%A7/">
+                        <span class="hidden-mobile">线性与非线性</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.3/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.1/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js" ></script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
