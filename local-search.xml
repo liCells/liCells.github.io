@@ -4,6 +4,31 @@
   
   
   <entry>
+    <title>rabbitmq install</title>
+    <link href="/2021/10/08/rabbitmq%20install/"/>
+    <url>/2021/10/08/rabbitmq%20install/</url>
+    
+    <content type="html"><![CDATA[<p><strong>RabbitMQ</strong>是实现了高级消息队列协议(AMQP)的<strong>开源</strong>消息代理软件.</p><p>是用<strong>Erlang</strong>语言编写的.</p><p>拥有着微秒级的响应速度.</p><p>不支持分布式, 但是支持集群的形式部署.</p><h2 id="1-安装erlang"><a href="#1-安装erlang" class="headerlink" title="1.安装erlang"></a>1.安装erlang</h2><p>具体版本可以在erlang官网上查看 <a href="https://www.erlang-solutions.com/downloads/">https://www.erlang-solutions.com/downloads/</a></p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs shell">sudo yum -y update<br>sudo yum -y install epel-release<br><span class="hljs-meta">#</span><span class="bash"> 下载 &amp;&amp; 安装 -&gt; erlang</span><br>cd ~ &amp;&amp; wget https://packages.erlang-solutions.com/erlang/rpm/centos/7/x86_64/esl-erlang_24.0.2-1~centos~7_amd64.rpm<br>sudo yum -y install esl-erlang_24.0.2-1~centos~7_amd64.rpm<br><span class="hljs-meta">#</span><span class="bash"> 验证是否安装成功</span><br>erl<br></code></pre></td></tr></table></figure><h2 id="2-安装RabbitMQ"><a href="#2-安装RabbitMQ" class="headerlink" title="2.安装RabbitMQ"></a>2.安装RabbitMQ</h2><p>具体版本可以在github上查看 <a href="https://github.com/rabbitmq/rabbitmq-server/releases">https://github.com/rabbitmq/rabbitmq-server/releases</a></p><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># 下载 &amp;&amp; 安装 -&gt; rabbitmq</span><br>wget https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.9.7/rabbitmq-server-3.9.7-1.el7.noarch.rpm<br>sudo yum install -y rabbitmq-server-3.9.7-1.el7.noarch.rpm<br><span class="hljs-comment"># 启动 &amp;&amp; 设置开机自启 -&gt; rabbit服务</span><br>systemctl start rabbitmq-server.service<br>systemctl <span class="hljs-built_in">enable</span> rabbitmq-server.service<br><span class="hljs-comment"># 设置对应防火墙端口 [4369,25672,5671,5672,15672,61613,61614,1883,8883]</span><br>sudo firewall-cmd --zone=public --permanent --add-port=4369/tcp --add-port=25672/tcp --add-port=5671-5672/tcp --add-port=15672/tcp  --add-port=61613-61614/tcp --add-port=1883/tcp --add-port=8883/tcp<br>sudo firewall-cmd --reload<br></code></pre></td></tr></table></figure><h3 id="3-开启RabbitMQ管理插件"><a href="#3-开启RabbitMQ管理插件" class="headerlink" title="3.开启RabbitMQ管理插件"></a>3.开启RabbitMQ管理插件</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta">#</span><span class="bash"> 开启插件, 会默认创建一个用户为guest(管理员), 一般情况选择删除该用户重新创建</span><br>sudo rabbitmq-plugins enable rabbitmq_management<br><span class="hljs-meta">#</span><span class="bash"> 删除默认用户</span><br>sudo rabbitmqctl delete_user guest<br><span class="hljs-meta">#</span><span class="bash"> 添加用户</span><br>sudo rabbitmqctl add_user root<br><span class="hljs-meta">#</span><span class="bash"> 设置角色</span><br>sudo rabbitmqctl set_user_tags root administrator<br><span class="hljs-meta">#</span><span class="bash"> 设置权限</span><br>sudo rabbitmqctl set_permissions -p / root &quot;.*&quot; &quot;.*&quot; &quot;.*&quot;<br></code></pre></td></tr></table></figure><p>浏览器访问{IP}:15672即可</p><blockquote><p>CentOS 7 安装rabbitmq脚本 <a href="https://github.com/liCells/linux_shell/blob/main/install_rabbitmq.sh">https://github.com/liCells/linux_shell/blob/main/install_rabbitmq.sh</a></p></blockquote>]]></content>
+    
+    
+    <categories>
+      
+      <category>中间件</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>mq</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>nginx 配置</title>
     <link href="/2021/08/11/nginx%20%E9%85%8D%E7%BD%AE/"/>
     <url>/2021/08/11/nginx%20%E9%85%8D%E7%BD%AE/</url>

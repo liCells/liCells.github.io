@@ -18,7 +18,7 @@
   <meta name="author" content="LZ">
   <meta name="keywords" content="">
   
-  <title>nginx 配置 - LZ&#39;blogs</title>
+  <title>rabbitmq install - LZ&#39;blogs</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
 
@@ -163,7 +163,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="nginx 配置">
+            <span class="h2" id="subtitle" title="rabbitmq install">
               
             </span>
 
@@ -173,8 +173,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2021-08-11 10:31" pubdate>
-        2021年8月11日 上午
+      <time datetime="2021-10-08 10:17" pubdate>
+        2021年10月8日 上午
       </time>
     </span>
   
@@ -185,7 +185,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      830 字
+      393 字
     </span>
   
 
@@ -195,7 +195,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      10
+      6
        分钟
     </span>
   
@@ -225,10 +225,25 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">nginx 配置</h1>
+            <h1 style="display: none">rabbitmq install</h1>
             
             <div class="markdown-body">
-              <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br></pre></td><td class="code"><pre><code class="hljs apl"># 全局块<br><br># 指定可以运行服务的用户和用户组, 去掉或者写为nonody的话代表所有用户都可以运行<br>user nginx;<br># 工作线程数(worker进程), 可以指定数量, 也可以使用auto自动处理<br>worker_processes auto;<br># 指定pid文件的存放路径, 主进程的进程ID会写入文件<br>pid nginx.pid<br><br>worker_rlimit_nofile 65535;<br><br># events块<br>events &#123;<br>	# 连接处理方式, 一般情况nginx会自动选择最好的方法, 但是也可以自行配置<br>	# select | poll | kqueue | epoll | /dev/poll | eventport<br>    use epoll;<br>    # 设置工作进程可以打开的最大同时连接数, 注意这个连接数不止代表了客户端连接的数量, 还有代理服务器的连接<br>    worker_connections 1024;<br>&#125;<br><br># hhtp块<br>http &#123;<br>	# 开启或禁用在错误界面和服务器响应时返回的nginx版本<br>    server_tokens off;<br>    # 映射表<br>    include       mime.types;<br>    # 响应类型<br>    default_type  application/octet-stream;<br>    # 默认情况下数据发送时, 不会直接发送, 而是会等待较多的数据组成数据包进行发送, 可以提高IO效率, 但是每次发送数据很少的话等待时间会长<br>    tcp_nodelay on;<br>    # 开启gzip压缩功能, 提高页面响应, 也可以节省网络带宽<br>    gzip on;<br>    # 允许压缩的最小字节<br>    gzip_min_length 1024k;<br>    # 区分http协议版本, 有些浏览器可能不支持gzip解压<br>    gzip_http_version 1.1;<br>    # 压缩等级, 越小压缩越快, 相对也更占用CPU<br>    gzip_comp_level 2;<br>    # gzip内存大小, 该设置代表以32k为单位的4倍大小申请内存空间<br>    gzip_buffers 4 32k;<br>    # 设置需要压缩的类型<br>    gzip_types text/plain text/css application/xml;<br>    <br>    # 向客户端发送的数据大于设置值时进行发送, 提高IO效率<br>    postpone_output 1024;<br>    # 设置读取客户端请求内容的超时时间<br>    client_body_timeout 1m;<br>    # 设置发送给客户端内容的超时时间<br>    send_timeout 1m;<br>    # 前者代表对服务端连接的持续时间, 后者代表给用户端的Keep-Alive超时时间<br>    keepalive_timeout  65 [header_timeout];<br><br>    server &#123;<br>        listen       80;<br>        server_name  localhost;<br><br>        location /folder/ &#123;<br>            # 是否使用sendfile传输文件, 可以在http | server | location中配置<br>            sendfile on;<br>            # 限制sendfile一次发送的大小, 可以在http | server | location中配置<br>            sendfile_max_chunk 256k;<br>            # (启用sendfile才会生效) 是否使用socke的TCP_CORK, 开启后, 数据包会在有一定大小之后再发送<br>            tcp_nopush on;<br>            tcp_nodelay on;<br>            # 0.8.12版本开始支持, 启用aio时, 会自动启动directio, 如果文件大于设定值, 那么会走aio传输文件, 如果小于则会走sendfile<br>            aio threads;<br>            directio 512k;<br>            # 从磁盘读取的响应区大小, 该设置代表以128K为单位的1倍大小申请内存空间<br>            output_buffers 1 128k;<br>            # 设置客户端请求大小的限制, 如果超出返回413错误, 注意浏览器可能无法正确显示该错误<br>            client_max_body_size 100m;<br>            # 用于访问文件, 例: /folder/test.jpg -&gt; /data/pic/test.jpg<br>            alias /data/pic/;<br>            # 用于访问文件, 例: /folder/test.jpg -&gt; /data/pic/folder/test.jpg<br>            root   /data/pic/;<br>            # 反向代理, 例: /folder/test.jpg -&gt; http://127.0.0.1:8080/test.jpg<br>            proxy_pass http://127.0.0.1:8080/<br>            index  index.html index.htm;<br><br>            # 开启索引功能<br>            autoindex on;<br>            # 关闭计算文件确切大小 (bytes), 显示大概大小 (kb, mb, gb)<br>            autoindex_exact_size off;<br>            # 显示本机时间而不是显示GMT时间<br>            autoindex_localtime on;<br>            # 配置编码<br>            charset utf-8;<br>        &#125;<br>	&#125;<br></code></pre></td></tr></table></figure>
+              <p><strong>RabbitMQ</strong>是实现了高级消息队列协议(AMQP)的<strong>开源</strong>消息代理软件.</p>
+<p>是用<strong>Erlang</strong>语言编写的.</p>
+<p>拥有着微秒级的响应速度.</p>
+<p>不支持分布式, 但是支持集群的形式部署.</p>
+<h2 id="1-安装erlang"><a href="#1-安装erlang" class="headerlink" title="1.安装erlang"></a>1.安装erlang</h2><p>具体版本可以在erlang官网上查看 <a target="_blank" rel="noopener" href="https://www.erlang-solutions.com/downloads/">https://www.erlang-solutions.com/downloads/</a></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs shell">sudo yum -y update<br>sudo yum -y install epel-release<br><span class="hljs-meta">#</span><span class="bash"> 下载 &amp;&amp; 安装 -&gt; erlang</span><br>cd ~ &amp;&amp; wget https://packages.erlang-solutions.com/erlang/rpm/centos/7/x86_64/esl-erlang_24.0.2-1~centos~7_amd64.rpm<br>sudo yum -y install esl-erlang_24.0.2-1~centos~7_amd64.rpm<br><span class="hljs-meta">#</span><span class="bash"> 验证是否安装成功</span><br>erl<br></code></pre></td></tr></table></figure>
+
+<h2 id="2-安装RabbitMQ"><a href="#2-安装RabbitMQ" class="headerlink" title="2.安装RabbitMQ"></a>2.安装RabbitMQ</h2><p>具体版本可以在github上查看 <a target="_blank" rel="noopener" href="https://github.com/rabbitmq/rabbitmq-server/releases">https://github.com/rabbitmq/rabbitmq-server/releases</a></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># 下载 &amp;&amp; 安装 -&gt; rabbitmq</span><br>wget https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.9.7/rabbitmq-server-3.9.7-1.el7.noarch.rpm<br>sudo yum install -y rabbitmq-server-3.9.7-1.el7.noarch.rpm<br><span class="hljs-comment"># 启动 &amp;&amp; 设置开机自启 -&gt; rabbit服务</span><br>systemctl start rabbitmq-server.service<br>systemctl <span class="hljs-built_in">enable</span> rabbitmq-server.service<br><span class="hljs-comment"># 设置对应防火墙端口 [4369,25672,5671,5672,15672,61613,61614,1883,8883]</span><br>sudo firewall-cmd --zone=public --permanent --add-port=4369/tcp --add-port=25672/tcp --add-port=5671-5672/tcp --add-port=15672/tcp  --add-port=61613-61614/tcp --add-port=1883/tcp --add-port=8883/tcp<br>sudo firewall-cmd --reload<br></code></pre></td></tr></table></figure>
+
+<h3 id="3-开启RabbitMQ管理插件"><a href="#3-开启RabbitMQ管理插件" class="headerlink" title="3.开启RabbitMQ管理插件"></a>3.开启RabbitMQ管理插件</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta">#</span><span class="bash"> 开启插件, 会默认创建一个用户为guest(管理员), 一般情况选择删除该用户重新创建</span><br>sudo rabbitmq-plugins enable rabbitmq_management<br><span class="hljs-meta">#</span><span class="bash"> 删除默认用户</span><br>sudo rabbitmqctl delete_user guest<br><span class="hljs-meta">#</span><span class="bash"> 添加用户</span><br>sudo rabbitmqctl add_user root<br><span class="hljs-meta">#</span><span class="bash"> 设置角色</span><br>sudo rabbitmqctl set_user_tags root administrator<br><span class="hljs-meta">#</span><span class="bash"> 设置权限</span><br>sudo rabbitmqctl set_permissions -p / root &quot;.*&quot; &quot;.*&quot; &quot;.*&quot;<br></code></pre></td></tr></table></figure>
+
+<p>浏览器访问{IP}:15672即可</p>
+<blockquote>
+<p>CentOS 7 安装rabbitmq脚本 <a target="_blank" rel="noopener" href="https://github.com/liCells/linux_shell/blob/main/install_rabbitmq.sh">https://github.com/liCells/linux_shell/blob/main/install_rabbitmq.sh</a></p>
+</blockquote>
 
             </div>
             <hr>
@@ -240,19 +255,13 @@
                     
                       <a class="hover-with-bg" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/">中间件</a>
                     
-                      <a class="hover-with-bg" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/nginx/">nginx</a>
-                    
                   </div>
                 
                 
                   <div class="post-meta">
                     <i class="iconfont icon-tags"></i>
                     
-                      <a class="hover-with-bg" href="/tags/%E4%B8%AD%E9%97%B4%E4%BB%B6/">中间件</a>
-                    
-                      <a class="hover-with-bg" href="/tags/http%E6%9C%8D%E5%8A%A1%E5%99%A8/">http服务器</a>
-                    
-                      <a class="hover-with-bg" href="/tags/nginx/">nginx</a>
+                      <a class="hover-with-bg" href="/tags/mq/">mq</a>
                     
                   </div>
                 
@@ -269,18 +278,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2021/10/08/rabbitmq%20install/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">rabbitmq install</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2021/07/12/Redis%20%E9%9B%AA%E5%B4%A9%20%E7%A9%BF%E9%80%8F%20%E5%87%BB%E7%A9%BF/">
-                        <span class="hidden-mobile">Redis 雪崩 穿透 击穿</span>
+                      <a href="/2021/08/11/nginx%20%E9%85%8D%E7%BD%AE/">
+                        <span class="hidden-mobile">nginx 配置</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
