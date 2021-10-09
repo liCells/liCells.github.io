@@ -18,9 +18,25 @@
   <meta name="author" content="LZ">
   <meta name="keywords" content="">
   
-  <title>分类 - Java - LZ&#39;blogs</title>
+  <title>JMM - LZ&#39;blogs</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.7.2/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
 
 
 
@@ -48,7 +64,7 @@
 
 
 <body>
-  <header style="height: 60vh;">
+  <header style="height: 70vh;">
     <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand"
@@ -147,9 +163,46 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="分类 - Java">
+            <span class="h2" id="subtitle" title="JMM">
               
             </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-07-14 04:21" pubdate>
+        2021年7月14日 凌晨
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      516 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      5
+       分钟
+    </span>
+  
+
+  
+  
+</div>
 
             
           </div>
@@ -162,82 +215,108 @@
 
   <main>
     
-      <div class="container nopadding-x-md">
-        <div class="py-5" id="board"
-          >
-          
-          <div class="container">
-            <div class="row">
-              <div class="col-12 col-md-10 m-auto">
-                
-
-<div class="list-group">
-  <p class="h4">共计 8 篇文章</p>
-  <hr>
-  
-  
-    
       
-      <p class="h5">2021</p>
-    
-    <a href="/2021/07/14/JMM/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">JMM</span>
-      <time style="float: right;">07-14</time>
-    </a>
-  
-    
-    <a href="/2021/06/25/HashMap/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">HashMap</span>
-      <time style="float: right;">06-25</time>
-    </a>
-  
-    
-    <a href="/2021/06/24/%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E7%AE%97%E6%B3%95/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">JVM垃圾回收算法</span>
-      <time style="float: right;">06-24</time>
-    </a>
-  
-    
-    <a href="/2021/06/24/CopyOnWriteArrayList/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">CopyOnWriteArrayList</span>
-      <time style="float: right;">06-24</time>
-    </a>
-  
-    
-    <a href="/2021/06/24/LinkedList/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">LinkedList</span>
-      <time style="float: right;">06-24</time>
-    </a>
-  
-    
-    <a href="/2021/06/23/ArrayList/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">ArrayList</span>
-      <time style="float: right;">06-23</time>
-    </a>
-  
-    
-    <a href="/2021/06/23/%E7%BA%BF%E6%80%A7%E4%B8%8E%E9%9D%9E%E7%BA%BF%E6%80%A7/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">线性与非线性</span>
-      <time style="float: right;">06-23</time>
-    </a>
-  
-    
-    <a href="/2021/06/22/%E7%BA%BF%E7%A8%8B%E6%B1%A0/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">线程池</span>
-      <time style="float: right;">06-22</time>
-    </a>
-  
-</div>
 
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">JMM</h1>
+            
+            <div class="markdown-body">
+              <h3 id="Java-内存模型-Java-Memory-Model-JMM"><a href="#Java-内存模型-Java-Memory-Model-JMM" class="headerlink" title="Java 内存模型 (Java Memory Model, JMM)"></a>Java 内存模型 (Java Memory Model, JMM)</h3><p>在Java虚拟机中定义的规范, 用于屏蔽各种硬件和操作系统的内存访问差异.</p>
+<p><img src="D:\koncks_project\github\notes-to-build\source\imgs\JMM_1.png" srcset="/img/loading.gif" lazyload alt="image-20211009144318894"></p>
+<p>JVM内部使用的Java 内存模型在线程堆栈和堆之间划分内存</p>
+<p>Java虚拟机中运行的每个线程都有自己的<strong>线程堆栈</strong>. <strong>线程堆栈</strong>包含着有关线程调用哪些方法以到达当前执行点的信息.</p>
+<p><strong>线程堆栈</strong>中包含了每个正在执行的方法中的局部变量, 一个线程只能访问他自己的<strong>线程堆栈</strong>, 也就是说, 局部变量对于其他线程是不可见的, 即使都是一模一样的变量, 但也是在自己的<strong>线程堆栈</strong>中创建自己的局部变量.</p>
+<blockquote>
+<p>所有的基本类型, 都会存储在线程堆栈中, 因此对于其他的线程来说是不可见的. 一个线程可以将原始变量的副本传递给其他的线程, 但是无法共享原始变量本身.</p>
+</blockquote>
+<p><strong>堆</strong>中包含了所有创建的对象, 这里是不区分线程的, 这个对象也包括基本类型的包装类Integer这些.</p>
+<p><img src="D:\koncks_project\github\notes-to-build\source\imgs\JMM_2.png" srcset="/img/loading.gif" lazyload alt="image-20211009144934410"></p>
+<p>如果<strong>局部变量</strong>是<strong>基本类型</strong>, 那么这个变量完全存储在<strong>线程堆栈</strong>中, 但是局部变量也可以是对象的引用, 在这种情况下, 引用会存储在线程堆栈中, 但是对象本身存储在堆中, 这个引用就是对应的局部变量.</p>
+<blockquote>
+<p>这就是为什么对象引用作为方法参数传递时修改对象值可以获取到对应的值, 而基本类型时无法获取到, 因为局部变量只是对象的引用, 但是对象本身都是堆中的一个, 所以改变后可以获取到, 而基本类型因为只是在方法中的局部变量, 每次都是一个单独的变量, 自然也就无法影响到父方法中的变量.</p>
+</blockquote>
 
-
-
-
-              </div>
             </div>
-          </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/">Java</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/JMM/">JMM</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/08/11/nginx%20%E9%85%8D%E7%BD%AE/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">nginx 配置</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/07/12/Redis%20%E9%9B%AA%E5%B4%A9%20%E7%A9%BF%E9%80%8F%20%E5%87%BB%E7%A9%BF/">
+                        <span class="hidden-mobile">Redis 雪崩 穿透 击穿</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
         </div>
       </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
     
 
     
@@ -317,9 +396,15 @@
 
 
 
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.3/dist/tocbot.min.js" ></script>
 
 
 
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.1/anchor.min.js" ></script>
 
 
 

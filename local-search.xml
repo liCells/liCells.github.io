@@ -60,6 +60,31 @@
   
   
   <entry>
+    <title>JMM</title>
+    <link href="/2021/07/14/JMM/"/>
+    <url>/2021/07/14/JMM/</url>
+    
+    <content type="html"><![CDATA[<h3 id="Java-内存模型-Java-Memory-Model-JMM"><a href="#Java-内存模型-Java-Memory-Model-JMM" class="headerlink" title="Java 内存模型 (Java Memory Model, JMM)"></a>Java 内存模型 (Java Memory Model, JMM)</h3><p>在Java虚拟机中定义的规范, 用于屏蔽各种硬件和操作系统的内存访问差异.</p><p><img src="D:\koncks_project\github\notes-to-build\source\imgs\JMM_1.png" alt="image-20211009144318894"></p><p>JVM内部使用的Java 内存模型在线程堆栈和堆之间划分内存</p><p>Java虚拟机中运行的每个线程都有自己的<strong>线程堆栈</strong>. <strong>线程堆栈</strong>包含着有关线程调用哪些方法以到达当前执行点的信息.</p><p><strong>线程堆栈</strong>中包含了每个正在执行的方法中的局部变量, 一个线程只能访问他自己的<strong>线程堆栈</strong>, 也就是说, 局部变量对于其他线程是不可见的, 即使都是一模一样的变量, 但也是在自己的<strong>线程堆栈</strong>中创建自己的局部变量.</p><blockquote><p>所有的基本类型, 都会存储在线程堆栈中, 因此对于其他的线程来说是不可见的. 一个线程可以将原始变量的副本传递给其他的线程, 但是无法共享原始变量本身.</p></blockquote><p><strong>堆</strong>中包含了所有创建的对象, 这里是不区分线程的, 这个对象也包括基本类型的包装类Integer这些.</p><p><img src="D:\koncks_project\github\notes-to-build\source\imgs\JMM_2.png" alt="image-20211009144934410"></p><p>如果<strong>局部变量</strong>是<strong>基本类型</strong>, 那么这个变量完全存储在<strong>线程堆栈</strong>中, 但是局部变量也可以是对象的引用, 在这种情况下, 引用会存储在线程堆栈中, 但是对象本身存储在堆中, 这个引用就是对应的局部变量.</p><blockquote><p>这就是为什么对象引用作为方法参数传递时修改对象值可以获取到对应的值, 而基本类型时无法获取到, 因为局部变量只是对象的引用, 但是对象本身都是堆中的一个, 所以改变后可以获取到, 而基本类型因为只是在方法中的局部变量, 每次都是一个单独的变量, 自然也就无法影响到父方法中的变量.</p></blockquote>]]></content>
+    
+    
+    <categories>
+      
+      <category>Java</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>JMM</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>Redis 雪崩 穿透 击穿</title>
     <link href="/2021/07/12/Redis%20%E9%9B%AA%E5%B4%A9%20%E7%A9%BF%E9%80%8F%20%E5%87%BB%E7%A9%BF/"/>
     <url>/2021/07/12/Redis%20%E9%9B%AA%E5%B4%A9%20%E7%A9%BF%E9%80%8F%20%E5%87%BB%E7%A9%BF/</url>
