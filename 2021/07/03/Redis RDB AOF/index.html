@@ -249,7 +249,7 @@
 <h4 id="弊端"><a href="#弊端" class="headerlink" title="弊端"></a><strong>弊端</strong></h4><p>数据的完整性并不高, 备份时会创建一个子进程或者阻塞</p>
 <h3 id="RDB文件结构"><a href="#RDB文件结构" class="headerlink" title="RDB文件结构"></a>RDB文件结构</h3><figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs jboss-cli">+<span class="hljs-params">-------</span>+<span class="hljs-params">-------------</span>+<span class="hljs-params">-----------</span>+<span class="hljs-params">-----------------</span>+<span class="hljs-params">-----</span>+<span class="hljs-params">-----------</span>+<br>| REDIS | RDB-VERSION | SELECT-DB | KEY-VALUE-PAIRS | EOF | CHECK-SUM |<br>+<span class="hljs-params">-------</span>+<span class="hljs-params">-------------</span>+<span class="hljs-params">-----------</span>+<span class="hljs-params">-----------------</span>+<span class="hljs-params">-----</span>+<span class="hljs-params">-----------</span>+<br>                      |&lt;<span class="hljs-params">--------</span> DB-DATA <span class="hljs-params">----------</span>&gt;|<br></code></pre></td></tr></table></figure>
 
-<p>REDIS =&gt; 文件最开头保存REDIS五个字符, 读入是可以检查文件的前五个字节判断是否是RDB文件.</p>
+<p>REDIS =&gt; 文件最开头保存REDIS五个字符, 读入时可以检查文件的前五个字节判断是否是RDB文件.</p>
 <p>RDB-VERSION =&gt; 四字节的字符整数, 记录该文件所用的RDB版本号 (0006), 因为不同版本的RDB文件不兼容, 所以在读入时需要判断版本确认读入方式</p>
 <p>SELECT-DB =&gt; 对应的数据库位置</p>
 <p>EOF =&gt; 标志数据库内容的结尾</p>

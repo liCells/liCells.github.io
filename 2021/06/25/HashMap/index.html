@@ -185,7 +185,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      1.9k 字
+      2k 字
     </span>
   
 
@@ -195,7 +195,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      29
+      31
        分钟
     </span>
   
@@ -228,7 +228,9 @@
             <h1 style="display: none">HashMap</h1>
             
             <div class="markdown-body">
-              <h3 id="HashMap-关系"><a href="#HashMap-关系" class="headerlink" title="HashMap 关系"></a>HashMap 关系</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">HashMap</span>&lt;<span class="hljs-title">K</span>,<span class="hljs-title">V</span>&gt; <span class="hljs-keyword">extends</span> <span class="hljs-title">AbstractMap</span>&lt;<span class="hljs-title">K</span>,<span class="hljs-title">V</span>&gt;</span><br><span class="hljs-class">    <span class="hljs-keyword">implements</span> <span class="hljs-title">Map</span>&lt;<span class="hljs-title">K</span>,<span class="hljs-title">V</span>&gt;, <span class="hljs-title">Cloneable</span>, <span class="hljs-title">Serializable</span> </span>&#123;<br>&#125;<br></code></pre></td></tr></table></figure>
+              <p>源码版本为 JDK 1.8.</p>
+<p>HashMap 允许 null 键和 null 值, 在计算哈键的哈希值时, null哈希值为0. HashMap不保证键值对的顺序, 遍历时<strong>无序</strong>, 这也代表在进行某些操作后, 键值对的顺序可能会发生变化. 另外, 需要注意的是, HashMap 是非线程安全类, 在多线程环境下可能会存在问题.</p>
+<h3 id="HashMap-关系"><a href="#HashMap-关系" class="headerlink" title="HashMap 关系"></a>HashMap 关系</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">HashMap</span>&lt;<span class="hljs-title">K</span>,<span class="hljs-title">V</span>&gt; <span class="hljs-keyword">extends</span> <span class="hljs-title">AbstractMap</span>&lt;<span class="hljs-title">K</span>,<span class="hljs-title">V</span>&gt;</span><br><span class="hljs-class">    <span class="hljs-keyword">implements</span> <span class="hljs-title">Map</span>&lt;<span class="hljs-title">K</span>,<span class="hljs-title">V</span>&gt;, <span class="hljs-title">Cloneable</span>, <span class="hljs-title">Serializable</span> </span>&#123;&#125;<br></code></pre></td></tr></table></figure>
 
 <h4 id="diagram"><a href="#diagram" class="headerlink" title="diagram"></a>diagram</h4><p><img src="/imgs/HashMap_diagram.jpg" srcset="/img/loading.gif" lazyload></p>
 <h3 id="重要参数"><a href="#重要参数" class="headerlink" title="重要参数"></a>重要参数</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">// 初始容量</span><br><span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> DEFAULT_INITIAL_CAPACITY = <span class="hljs-number">1</span> &lt;&lt; <span class="hljs-number">4</span>;<br><span class="hljs-comment">// 最大容量</span><br><span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> MAXIMUM_CAPACITY = <span class="hljs-number">1</span> &lt;&lt; <span class="hljs-number">30</span>;<br><span class="hljs-comment">// 负载因子</span><br><span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">float</span> DEFAULT_LOAD_FACTOR = <span class="hljs-number">0.75f</span>;<br><span class="hljs-comment">// 链表长度大于TREEIFY_THRESHOLD时转为红黑树</span><br><span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> TREEIFY_THRESHOLD = <span class="hljs-number">8</span>;<br><span class="hljs-comment">// 链表长度小于UNTREEIFY_THRESHOLD时转为链表</span><br><span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> UNTREEIFY_THRESHOLD = <span class="hljs-number">6</span>;<br><span class="hljs-comment">// 可被树化的最小容量</span><br><span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> MIN_TREEIFY_CAPACITY = <span class="hljs-number">64</span>;<br><span class="hljs-comment">// 存储元素的数组</span><br><span class="hljs-keyword">transient</span> Node&lt;k,v&gt;[] table;<br><span class="hljs-comment">// 缓存存放</span><br><span class="hljs-keyword">transient</span> Set&lt;map.entry&lt;k,v&gt;&gt; entrySet;<br><span class="hljs-comment">// 键值映射关系数量</span><br><span class="hljs-keyword">transient</span> <span class="hljs-keyword">int</span> size;<br><span class="hljs-comment">// 临界值 当实际的KV个数超过它时, 进行扩容</span><br><span class="hljs-keyword">int</span> threshold;<br><span class="hljs-comment">// 哈希表的加载因子</span><br><span class="hljs-keyword">final</span> <span class="hljs-keyword">float</span> loadFactor;<br></code></pre></td></tr></table></figure>
@@ -247,7 +249,7 @@
 </blockquote>
 <blockquote>
 <p><strong>KEY可以为null吗? VALUE是否可以为null?</strong></p>
-<p>都可以, 但是key只能有一个null, 但是value可以拥有多个.</p>
+<p>都可以, 但是key只能有一个null(重复的key会被覆盖), 但是value可以拥有多个.</p>
 <p><strong>一般用什么作为KEY?</strong></p>
 <p>一般为Integer,String这种不可变的值作为对应的KEY, 因为将一个可变类作为KEY会导致hashcode发生变化.</p>
 </blockquote>

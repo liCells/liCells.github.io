@@ -18,7 +18,7 @@
   <meta name="author" content="LZ">
   <meta name="keywords" content="">
   
-  <title>nginx 配置 - LZ&#39;blogs</title>
+  <title>命名 - LZ&#39;blogs</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
 
@@ -163,7 +163,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="nginx 配置">
+            <span class="h2" id="subtitle" title="命名">
               
             </span>
 
@@ -173,8 +173,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2021-08-11 10:31" pubdate>
-        2021年8月11日 上午
+      <time datetime="2021-08-27 09:50" pubdate>
+        2021年8月27日 上午
       </time>
     </span>
   
@@ -185,7 +185,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      971 字
+      443 字
     </span>
   
 
@@ -195,7 +195,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      11
+      4
        分钟
     </span>
   
@@ -225,22 +225,42 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">nginx 配置</h1>
+            <h1 style="display: none">命名</h1>
             
             <div class="markdown-body">
-              <p>nginx是一个高性能的HTTP和反向代理服务器, 邮件代理服务器, TCP/UDP 代理服务器</p>
-<ul>
-<li>一个主进程和多个工作进程; 工作进程在非root用户下运行;</li>
-<li>可以在不中断服务的情况下更新配置</li>
-<li>支持epoll, kqueue等</li>
-<li>提供静态和索引文件</li>
-<li>负载均衡和容错</li>
-<li>使用缓存加速反向代理</li>
-<li>基于客户端地址的访问控制</li>
-<li>限制来自一个地址的同时连接数</li>
-<li>TCP和UDP的通用代理</li>
+              <h2 id="统一资源管理类命名"><a href="#统一资源管理类命名" class="headerlink" title="统一资源管理类命名"></a>统一资源管理类命名</h2><h4 id="Bootstrap-Starter"><a href="#Bootstrap-Starter" class="headerlink" title="Bootstrap, Starter"></a>Bootstrap, Starter</h4><p>​    一般来说作为程序启动器使用, 或者是某个项目的基类</p>
+<h4 id="Processor"><a href="#Processor" class="headerlink" title="Processor"></a>Processor</h4><p>​    某一类功能的处理器, 用来表示某个处理过程</p>
+<h4 id="Manager"><a href="#Manager" class="headerlink" title="Manager"></a>Manager</h4><p>​    对有生命状态的对象进行管理, 通常作为某一类资源的管理入口</p>
+<h4 id="Holder"><a href="#Holder" class="headerlink" title="Holder"></a>Holder</h4><p>​    表示持有某个或者某类对象的引用，并可以对其进行统一管理</p>
+<h4 id="Factory"><a href="#Factory" class="headerlink" title="Factory"></a>Factory</h4><p>​    工厂模式的命名</p>
+<h4 id="Provider"><a href="#Provider" class="headerlink" title="Provider"></a>Provider</h4><p>​    一般是接口或者抽象类, 以便能够完成子实现</p>
+<h4 id="Registrar"><a href="#Registrar" class="headerlink" title="Registrar"></a>Registrar</h4><p>​    注册并管理一系列资源</p>
+<h4 id="Engine"><a href="#Engine" class="headerlink" title="Engine"></a>Engine</h4><p>​    一般都是核心模块, 用来处理某一类功能</p>
+<h4 id="Service"><a href="#Service" class="headerlink" title="Service"></a>Service</h4><h4 id="Task"><a href="#Task" class="headerlink" title="Task"></a>Task</h4><h2 id="传播类命名"><a href="#传播类命名" class="headerlink" title="传播类命名"></a>传播类命名</h2><p>​    有些参数需要在各种方法中传递, 就需要一个单独的类来统一处理, 最终传递的就是统一的一个类对象</p>
+<h4 id="Context"><a href="#Context" class="headerlink" title="Context"></a>Context</h4><h4 id="Propagator"><a href="#Propagator" class="headerlink" title="Propagator"></a>Propagator</h4><h2 id="回调类命名"><a href="#回调类命名" class="headerlink" title="回调类命名"></a>回调类命名</h2><h4 id="Handler-Callback-Trigger-Listener"><a href="#Handler-Callback-Trigger-Listener" class="headerlink" title="Handler, Callback, Trigger, Listener"></a>Handler, Callback, Trigger, Listener</h4><ul>
+<li>Handler一般都是真正要处理逻辑的对象</li>
+<li>Callback一般都是一个接口, 用于处理某一类的消息</li>
+<li>Trigger一般都是某类事件的处理</li>
+<li>Listener一般用在观察者模式中</li>
 </ul>
-<h3 id="nginx-conf的配置项记录"><a href="#nginx-conf的配置项记录" class="headerlink" title="nginx.conf的配置项记录"></a>nginx.conf的配置项记录</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br></pre></td><td class="code"><pre><code class="hljs apl"># 全局块<br><br># 指定可以运行服务的用户和用户组, 去掉或者写为nonody的话代表所有用户都可以运行<br>user nginx;<br># 工作线程数(worker进程), 可以指定数量, 也可以使用auto自动处理<br>worker_processes auto;<br># 指定pid文件的存放路径, 主进程的进程ID会写入文件<br>pid nginx.pid<br><br>worker_rlimit_nofile 65535;<br><br># events块<br>events &#123;<br>	# 连接处理方式, 一般情况nginx会自动选择最好的方法, 但是也可以自行配置<br>	# select | poll | kqueue | epoll | /dev/poll | eventport<br>    use epoll;<br>    # 设置工作进程可以打开的最大同时连接数, 注意这个连接数不止代表了客户端连接的数量, 还有代理服务器的连接<br>    worker_connections 1024;<br>&#125;<br><br># hhtp块<br>http &#123;<br>	# 开启或禁用在错误界面和服务器响应时返回的nginx版本<br>    server_tokens off;<br>    # 映射表<br>    include       mime.types;<br>    # 响应类型<br>    default_type  application/octet-stream;<br>    # 默认情况下数据发送时, 不会直接发送, 而是会等待较多的数据组成数据包进行发送, 可以提高IO效率, 但是每次发送数据很少的话等待时间会长<br>    tcp_nodelay on;<br>    # 开启gzip压缩功能, 提高页面响应, 也可以节省网络带宽<br>    gzip on;<br>    # 允许压缩的最小字节<br>    gzip_min_length 1024k;<br>    # 区分http协议版本, 有些浏览器可能不支持gzip解压<br>    gzip_http_version 1.1;<br>    # 压缩等级, 越小压缩越快, 相对也更占用CPU<br>    gzip_comp_level 2;<br>    # gzip内存大小, 该设置代表以32k为单位的4倍大小申请内存空间<br>    gzip_buffers 4 32k;<br>    # 设置需要压缩的类型<br>    gzip_types text/plain text/css application/xml;<br>    <br>    # 向客户端发送的数据大于设置值时进行发送, 提高IO效率<br>    postpone_output 1024;<br>    # 设置读取客户端请求内容的超时时间<br>    client_body_timeout 1m;<br>    # 设置发送给客户端内容的超时时间<br>    send_timeout 1m;<br>    # 前者代表对服务端连接的持续时间, 后者代表给用户端的Keep-Alive超时时间<br>    keepalive_timeout  65 [header_timeout];<br><br>    server &#123;<br>        listen       80;<br>        server_name  localhost;<br><br>        location /folder/ &#123;<br>            # 是否使用sendfile传输文件, 可以在http | server | location中配置<br>            sendfile on;<br>            # 限制sendfile一次发送的大小, 可以在http | server | location中配置<br>            sendfile_max_chunk 256k;<br>            # (启用sendfile才会生效) 是否使用socke的TCP_CORK, 开启后, 数据包会在有一定大小之后再发送<br>            tcp_nopush on;<br>            tcp_nodelay on;<br>            # 0.8.12版本开始支持, 启用aio时, 会自动启动directio, 如果文件大于设定值, 那么会走aio传输文件, 如果小于则会走sendfile<br>            aio threads;<br>            directio 512k;<br>            # 从磁盘读取的响应区大小, 该设置代表以128K为单位的1倍大小申请内存空间<br>            output_buffers 1 128k;<br>            # 设置客户端请求大小的限制, 如果超出返回413错误, 注意浏览器可能无法正确显示该错误<br>            client_max_body_size 100m;<br>            # 用于访问文件, 例: /folder/test.jpg -&gt; /data/pic/test.jpg<br>            alias /data/pic/;<br>            # 用于访问文件, 例: /folder/test.jpg -&gt; /data/pic/folder/test.jpg<br>            root   /data/pic/;<br>            # 反向代理, 例: /folder/test.jpg -&gt; http://127.0.0.1:8080/test.jpg<br>            proxy_pass http://127.0.0.1:8080/<br>            index  index.html index.htm;<br><br>            # 开启索引功能<br>            autoindex on;<br>            # 关闭计算文件确切大小 (bytes), 显示大概大小 (kb, mb, gb)<br>            autoindex_exact_size off;<br>            # 显示本机时间而不是显示GMT时间<br>            autoindex_localtime on;<br>            # 配置编码<br>            charset utf-8;<br>        &#125;<br>	&#125;<br></code></pre></td></tr></table></figure>
+<h4 id="Aware"><a href="#Aware" class="headerlink" title="Aware"></a>Aware</h4><h2 id="监控类命名"><a href="#监控类命名" class="headerlink" title="监控类命名"></a>监控类命名</h2><h4 id="Accumulator"><a href="#Accumulator" class="headerlink" title="Accumulator"></a>Accumulator</h4><p>​    累加器</p>
+<h4 id="Metric-Monitor"><a href="#Metric-Monitor" class="headerlink" title="Metric, Monitor"></a>Metric, Monitor</h4><p>​    一般表示监控</p>
+<h4 id="Estimator"><a href="#Estimator" class="headerlink" title="Estimator"></a>Estimator</h4><p>​    统计类, 一般指某一类的统计计算</p>
+<h4 id="Tracker"><a href="#Tracker" class="headerlink" title="Tracker"></a>Tracker</h4><p>​    跟踪器</p>
+<h2 id="内存管理类命名"><a href="#内存管理类命名" class="headerlink" title="内存管理类命名"></a>内存管理类命名</h2><h4 id="Allocator"><a href="#Allocator" class="headerlink" title="Allocator"></a>Allocator</h4><p>​    内存分配器</p>
+<h4 id="Arena"><a href="#Arena" class="headerlink" title="Arena"></a>Arena</h4><p>​    资源的管理</p>
+<h4 id="Chunk"><a href="#Chunk" class="headerlink" title="Chunk"></a>Chunk</h4><h4 id="Pool"><a href="#Pool" class="headerlink" title="Pool"></a>Pool</h4><p>​    池化类</p>
+<h2 id="过滤处理类命名"><a href="#过滤处理类命名" class="headerlink" title="过滤处理类命名"></a>过滤处理类命名</h2><h4 id="Detector"><a href="#Detector" class="headerlink" title="Detector"></a>Detector</h4><p>​    探测器, 一般处理一些事件, 在事件发生时进行捕获或者说响应</p>
+<h4 id="Evaluator"><a href="#Evaluator" class="headerlink" title="Evaluator"></a>Evaluator</h4><p>​    一般用于处理计算类</p>
+<h4 id="Interceptor"><a href="#Interceptor" class="headerlink" title="Interceptor"></a>Interceptor</h4><p>​    拦截器</p>
+<h4 id="Filter"><a href="#Filter" class="headerlink" title="Filter"></a>Filter</h4><p>​    过滤器</p>
+<h4 id="Pipeline-Chain"><a href="#Pipeline-Chain" class="headerlink" title="Pipeline, Chain"></a>Pipeline, Chain</h4><p>​    一般在责任链模式中使用</p>
+<h2 id="结构类命名"><a href="#结构类命名" class="headerlink" title="结构类命名"></a>结构类命名</h2><h4 id="Cache"><a href="#Cache" class="headerlink" title="Cache"></a>Cache</h4><p>​    缓存</p>
+<h4 id="Buffer"><a href="#Buffer" class="headerlink" title="Buffer"></a>Buffer</h4><p>​    缓冲</p>
+<h4 id="Wrapper"><a href="#Wrapper" class="headerlink" title="Wrapper"></a>Wrapper</h4><p>​    包装, 用于包装某个类做附加处理</p>
+<h4 id="Iterator"><a href="#Iterator" class="headerlink" title="Iterator"></a>Iterator</h4><p>​    迭代器</p>
+<h4 id="Batch"><a href="#Batch" class="headerlink" title="Batch"></a>Batch</h4><p>​    批处理</p>
+<h4 id="Limiter"><a href="#Limiter" class="headerlink" title="Limiter"></a>Limiter</h4><p>​    限流器</p>
 
             </div>
             <hr>
@@ -250,9 +270,7 @@
                   <div class="post-meta mr-3">
                     <i class="iconfont icon-category"></i>
                     
-                      <a class="hover-with-bg" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/">中间件</a>
-                    
-                      <a class="hover-with-bg" href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/nginx/">nginx</a>
+                      <a class="hover-with-bg" href="/categories/%E8%A7%84%E8%8C%83/">规范</a>
                     
                   </div>
                 
@@ -260,11 +278,7 @@
                   <div class="post-meta">
                     <i class="iconfont icon-tags"></i>
                     
-                      <a class="hover-with-bg" href="/tags/%E4%B8%AD%E9%97%B4%E4%BB%B6/">中间件</a>
-                    
-                      <a class="hover-with-bg" href="/tags/http%E6%9C%8D%E5%8A%A1%E5%99%A8/">http服务器</a>
-                    
-                      <a class="hover-with-bg" href="/tags/nginx/">nginx</a>
+                      <a class="hover-with-bg" href="/tags/%E8%A7%84%E8%8C%83/">规范</a>
                     
                   </div>
                 
@@ -281,9 +295,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2021/08/27/%E5%91%BD%E5%90%8D/">
+                      <a href="/2021/10/08/rabbitmq%20install/">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">命名</span>
+                        <span class="hidden-mobile">rabbitmq install</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -291,8 +305,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2021/07/14/JMM/">
-                        <span class="hidden-mobile">JMM</span>
+                      <a href="/2021/08/11/nginx%20%E9%85%8D%E7%BD%AE/">
+                        <span class="hidden-mobile">nginx 配置</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

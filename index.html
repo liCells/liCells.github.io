@@ -237,6 +237,61 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
+        <a href="/2021/08/27/%E5%91%BD%E5%90%8D/" target="_self">
+          命名
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/08/27/%E5%91%BD%E5%90%8D/" target="_self">
+          
+          
+            
+          
+          统一资源管理类命名Bootstrap, Starter​    一般来说作为程序启动器使用, 或者是某个项目的基类
+Processor​    某一类功能的处理器, 用来表示某个处理过程
+Manager​    对有生命状态的对象进行管理, 通常作为某一类资源的管理入口
+Holder​    表示持有某个或者某类对象的引用，并可以对其进行统一管理
+Factory​    工厂模式的命名
+Provi
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-08-27 09:50" pubdate>
+              2021-08-27
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E8%A7%84%E8%8C%83/">规范</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E8%A7%84%E8%8C%83/">规范</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
         <a href="/2021/08/11/nginx%20%E9%85%8D%E7%BD%AE/" target="_self">
           nginx 配置
         </a>
@@ -248,7 +303,19 @@
           
             
           
-          1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768697071727374757677787980818283848586878889# 全局块# 指定可以运行服务的用户和用户组, 去掉或者写为n
+          nginx是一个高性能的HTTP和反向代理服务器, 邮件代理服务器, TCP/UDP 代理服务器
+
+一个主进程和多个工作进程; 工作进程在非root用户下运行;
+可以在不中断服务的情况下更新配置
+支持epoll, kqueue等
+提供静态和索引文件
+负载均衡和容错
+使用缓存加速反向代理
+基于客户端地址的访问控制
+限制来自一个地址的同时连接数
+TCP和UDP的通用代理
+
+nginx.conf的配置项
         </a>
       </p>
 
@@ -416,7 +483,13 @@ Java虚拟机中运行的每个线程都有自己的线程堆栈. 线程堆栈�
             
           
           Pinpoint是一个无侵入性的监控系统.
-前置工具1234567# gityum install git# docker, 可以配置阿里的镜像加速器yum install docker# docker-composecurl -L https://github.com/docker/compose/releases/download/1.25.1/docker-compose-`uname -s
+APM工具
+低侵入性, 低性能影响
+Pinpoint有三个主要组件(collector, web, agent), 并使用HBase作为存储. Collector和Web被打包为单个war文件, 而agent被打包以便可以作为java agent附加到应用.
+
+HBase (用于存储)
+Pinpoint Collector (部署在web容器中)
+Pin
         </a>
       </p>
 
@@ -576,7 +649,8 @@ RDB最核心的功能为rdbsave和rdbload, rdbsave用于生成RDB文件到磁盘
           
             
           
-          Pub/Sub (发布 订阅)123456789101112# 监听&gt; SUBSCRIBE one two1) &quot;psubscribe&quot;2) &quot;one&quot;3) (integer) 11) &quot;psubscribe&quot;2) &quot;two&quot;3) (integer) 2# 这里是监听到的消息1) &quot;message&qu
+           Pub/Sub实现了发布/订阅消息传递范式, Streams实现了一组阻塞操作, 允许消费者等待生产者添加到流中的新数据, 此外还有一个叫做Consumer Groups的概念, 消费者组最初是由流行的消息传递系统Kafka引入的. Redis用完全不同的术语重新实现了一个类似的想法, 但目标是相同的: 允许一组客户端合作使用同一消息流的不同部分.
+一般情况下, 项目不太会采用redis来实现消
         </a>
       </p>
 
@@ -656,61 +730,6 @@ RDB最核心的功能为rdbsave和rdbload, rdbsave用于生成RDB文件到磁盘
             <i class="iconfont icon-tags"></i>
             
               <a href="/tags/Redis/">Redis</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/06/25/HashMap/" target="_self">
-          HashMap
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2021/06/25/HashMap/" target="_self">
-          
-          
-            
-          
-          HashMap 关系123public class HashMap&lt;K,V&gt; extends AbstractMap&lt;K,V&gt;    implements Map&lt;K,V&gt;, Cloneable, Serializable &#123;&#125;
-
-diagram
-重要参数12345678910111213141516171819202122// 初始容量st
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-06-25 14:12" pubdate>
-              2021-06-25
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/Java/">Java</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a>
-            
-              <a href="/tags/MAP/">MAP</a>
             
           </div>
         

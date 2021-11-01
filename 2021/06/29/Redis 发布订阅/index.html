@@ -185,7 +185,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      1.1k 字
+      1.3k 字
     </span>
   
 
@@ -195,7 +195,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      14
+      16
        分钟
     </span>
   
@@ -228,7 +228,9 @@
             <h1 style="display: none">Redis 发布 订阅</h1>
             
             <div class="markdown-body">
-              <h2 id="Pub-Sub-发布-订阅"><a href="#Pub-Sub-发布-订阅" class="headerlink" title="Pub/Sub (发布 订阅)"></a>Pub/Sub (发布 订阅)</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 监听</span><br>&gt; SUBSCRIBE one two<br>1) <span class="hljs-string">&quot;psubscribe&quot;</span><br>2) <span class="hljs-string">&quot;one&quot;</span><br>3) (<span class="hljs-built_in">integer</span>) 1<br>1) <span class="hljs-string">&quot;psubscribe&quot;</span><br>2) <span class="hljs-string">&quot;two&quot;</span><br>3) (<span class="hljs-built_in">integer</span>) 2<br><span class="hljs-comment"># 这里是监听到的消息</span><br>1) <span class="hljs-string">&quot;message&quot;</span><br>2) <span class="hljs-string">&quot;two&quot;</span><br>3) <span class="hljs-string">&quot;msg&quot;</span><br></code></pre></td></tr></table></figure>
+              <p> Pub/Sub实现了发布/订阅消息传递范式, Streams实现了一组阻塞操作, 允许消费者等待生产者添加到流中的新数据, 此外还有一个叫做<strong>Consumer Groups</strong>的概念, 消费者组最初是由流行的消息传递系统Kafka引入的. Redis用完全不同的术语重新实现了一个类似的想法, 但目标是相同的: 允许一组客户端合作使用同一消息流的不同部分.</p>
+<p>一般情况下, 项目不太会采用redis来实现消息队列, 最好采用专业的消息队列处理</p>
+<h2 id="Pub-Sub-发布-订阅"><a href="#Pub-Sub-发布-订阅" class="headerlink" title="Pub/Sub (发布 订阅)"></a>Pub/Sub (发布 订阅)</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 监听</span><br>&gt; SUBSCRIBE one two<br>1) <span class="hljs-string">&quot;psubscribe&quot;</span><br>2) <span class="hljs-string">&quot;one&quot;</span><br>3) (<span class="hljs-built_in">integer</span>) 1<br>1) <span class="hljs-string">&quot;psubscribe&quot;</span><br>2) <span class="hljs-string">&quot;two&quot;</span><br>3) (<span class="hljs-built_in">integer</span>) 2<br><span class="hljs-comment"># 这里是监听到的消息</span><br>1) <span class="hljs-string">&quot;message&quot;</span><br>2) <span class="hljs-string">&quot;two&quot;</span><br>3) <span class="hljs-string">&quot;msg&quot;</span><br></code></pre></td></tr></table></figure>
 
 <blockquote>
 <p>注意监听多个队列可以空格空开, 对应的队列名也可以使用模糊匹配</p>

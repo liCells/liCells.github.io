@@ -185,7 +185,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      230 字
+      324 字
     </span>
   
 
@@ -195,7 +195,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      3
+      4
        分钟
     </span>
   
@@ -229,6 +229,15 @@
             
             <div class="markdown-body">
               <p>Pinpoint是一个无侵入性的监控系统.</p>
+<p>APM工具</p>
+<p>低侵入性, 低性能影响</p>
+<p>Pinpoint有三个主要组件(collector, web, agent), 并使用HBase作为存储. Collector和Web被打包为单个war文件, 而agent被打包以便可以作为java agent附加到应用.</p>
+<ul>
+<li>HBase (用于存储)</li>
+<li>Pinpoint Collector (部署在web容器中)</li>
+<li>Pinpoint Web (部署在web容器中)</li>
+<li>Pinpoint Agent (附加到 java 应用来做采样/profile)</li>
+</ul>
 <h3 id="前置工具"><a href="#前置工具" class="headerlink" title="前置工具"></a>前置工具</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># git</span><br>yum install git<br><span class="hljs-comment"># docker, 可以配置阿里的镜像加速器</span><br>yum install docker<br><span class="hljs-comment"># docker-compose</span><br>curl -L https://github.com/docker/compose/releases/download/1.25.1/docker-compose-`uname -s`-`uname -m` -o /usr/<span class="hljs-built_in">local</span>/bin/docker-compose<br>chmod +x /usr/<span class="hljs-built_in">local</span>/bin/docker-compose<br></code></pre></td></tr></table></figure>
 
 <h3 id="服务端"><a href="#服务端" class="headerlink" title="服务端"></a>服务端</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 克隆对应的仓库, 克隆慢的话可以在gitee上导入后克隆</span><br>git <span class="hljs-built_in">clone</span> https://github.com/naver/pinpoint-docker.git<br><span class="hljs-comment"># 切换到pinpoint-docker文件夹</span><br><span class="hljs-built_in">cd</span> pinpoint-docker<br><span class="hljs-comment"># 阅读Readme</span><br>docker-compose pull &amp;&amp; docker-compose up -d<br></code></pre></td></tr></table></figure>
